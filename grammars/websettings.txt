@@ -1,0 +1,166 @@
+# MIT License
+# 
+# Copyright (c) 2018 S. Lee
+# 
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+# 
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+# 
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+
+# This is extracted from android.webkit.WebSettings, for details of each API, 
+# check https://developer.android.com/reference/android/webkit/WebSettings
+
+
+!include useragent.txt
+
+
+# terminals
+<newline> = <lf>
+<boolean> = <true>
+<boolean> = <false>
+<true> = true
+<false> = false
+
+
+# root
+<root root=true> = <AllowContentAccessProp><newline><AllowFileAccessProp><newline><AllowFileAccessFromFileURLsProp><newline><AllowUniversalAccessFromFileURLsProp><newline><AppCacheEnabledProp><newline><AppCacheMaxSizeProp><newline><AppCachePathProp><newline><BlockNetworkImageProp><newline><BlockNetworkLoadsProp><newline><BuiltInZoomControlsProp><newline><CacheModeProp><newline><CursiveFontFamilyProp><newline><DatabaseEnabledProp><newline><DatabasePathProp><newline><DefaultFixedFontSizeProp><newline><DefaultFontSizeProp><newline><DefaultTextEncodingNameProp><newline><DefaultZoomProp><newline><DisabledActionModeMenuItemsProp><newline><DisplayZoomControlsProp><newline><DomStorageEnabledProp><newline><EnableSmoothTransitionProp><newline><FantasyFontFamilyProp><newline><FixedFontFamilyProp><newline><GeolocationDatabasePathProp><newline><GeolocationEnabledProp><newline><JavaScriptCanOpenWindowsAutomaticallyProp><newline><JavaScriptEnabledProp><newline><LayoutAlgorithmProp><newline><LightTouchEnabledProp><newline><LoadWithOverviewModeProp><newline><LoadsImagesAutomaticallyProp><newline><MediaPlaybackRequiresUserGestureProp><newline><MinimumFontSizeProp><newline><MinimumLogicalFontSizeProp><newline><MixedContentModeProp><newline><NeedInitialFocusProp><newline><OffscreenPreRasterProp><newline><PluginStateProp><newline><RenderPriorityProp><newline><SafeBrowsingEnabledProp><newline><SansSerifFontFamilyProp><newline><SaveFormDataProp><newline><SavePasswordProp><newline><SerifFontFamilyProp><newline><StandardFontFamilyProp><newline><SupportMultipleWindowsProp><newline><SupportZoomProp><newline><TextSizeProp><newline><TextZoomProp><newline><UseWideViewPortProp><newline><UserAgentStringProp><newline>
+
+# app cache and database
+<AppCacheEnabledProp> = AppCacheEnabled=<boolean>
+
+<AppCacheMaxSizeProp> = AppCacheMaxSize=<uint64> # NOTE This will only be used when AppCache is enabled
+
+<AppCachePathProp> = AppCachePath=<AppCachePath> # NOTE This will only be used when AppCache is enabled
+<AppCachePath> = cache-<int min=1 max=10>
+
+<CacheModeProp> = CacheMode=<CacheMode>
+<CacheMode>=-1 # LOAD_DEFAULT
+<CacheMode>=0  # LOAD_NORMAL
+<CacheMode>=1  # LOAD_CACHE_ELSE_NETWORK
+<CacheMode>=2  # LOAD_NO_CACHE
+<CacheMode>=3  # LOAD_CACHE_ONLY
+
+<DatabaseEnabledProp> = DatabaseEnabled=<boolean>
+
+<DatabasePathProp> = DatabasePath=<DatabasePath> # NOTE This will only be used when Database is enabled
+<DatabasePath> = database-<int min=1 max=10>
+
+<GeolocationDatabasePathProp> = GeolocationDatabasePath=<GeolocationDatabasePath> # NOTE This will only be used when Geolocation is enabled
+<GeolocationDatabasePath> = geodatabase-<int min=1 max=10>
+
+<GeolocationEnabledProp> = GeolocationEnabled=<boolean>
+
+
+# text and font
+<CursiveFontFamily> = cursive # TODO more
+<FontFamily> = fantasy # TODO more
+<FontFamily> = monospace # TODO more
+<SerifFontFamily> = sans-serif # TODO more
+<SansSerifFontFamily> = sans-serif # TODO more
+<StandardFontFamily> = sans-serif # TODO more
+
+<CursiveFontFamilyProp> = CursiveFontFamily=<CursiveFontFamily>
+<DefaultFixedFontSizeProp> = DefaultFixedFontSize=<int min=1 max=72>
+<DefaultFontSizeProp> = DefaultFontSize=<int min=1 max=72>
+<FantasyFontFamilyProp> = FantasyFontFamily=<FontFamily>
+<FixedFontFamilyProp> = FixedFontFamily=<FontFamily>
+<MinimumFontSizeProp> = MinimumFontSize=<int min=1 max=72>
+<MinimumLogicalFontSizeProp> = MinimumLogicalFontSize=<int min=1 max=72>
+<SansSerifFontFamilyProp> = SansSerifFontFamily=<SansSerifFontFamily>
+<SerifFontFamilyProp> = SerifFontFamily=<SerifFontFamily>
+<StandardFontFamilyProp> = StandardFontFamily=<StandardFontFamily>
+
+<DefaultTextEncodingNameProp> = DefaultTextEncodingName=<TextEncodingName>
+<TextEncodingName>=UTF-8 # TODO more
+
+<TextZoomProp> = TextZoom=<int8>
+
+<TextSizeProp> = TextSize=<TextSize>
+<TextSize> = LARGER
+<TextSize> = LARGEST
+<TextSize> = NORMAL
+<TextSize> = SMALLER
+<TextSize> = SMALLEST
+
+
+# menu
+<DisabledActionModeMenuItemsProp> = DisabledActionModeMenuItems=<ActionModeMenuItem>
+<ActionModeMenuItem> = <int min=0 max=7> # MENU_ITEM_NONE=0, MENU_ITEM_SHARE=1, MENU_ITEM_WEB_SEARCH=2, MENU_ITEM_PROCESS_TEXT=4, and their combinations
+
+
+# zoom
+<BuiltInZoomControlsProp> = BuiltInZoomControls=<boolean>
+<DisplayZoomControlsProp> = DisplayZoomControls=<boolean>
+<SupportZoomProp> = SupportZoom=<boolean>
+
+<DefaultZoomProp> = DefaultZoom=<ZoomDensity>
+<ZoomDensity> = CLOSE
+<ZoomDensity> = FAR
+<ZoomDensity> = MEDIUM
+
+
+# JavaScript
+<JavaScriptCanOpenWindowsAutomaticallyProp> = JavaScriptCanOpenWindowsAutomatically=<boolean>
+<JavaScriptEnabledProp> = JavaScriptEnabled=<boolean>
+
+
+# user agent
+<UserAgentStringProp> = UserAgentString=<UserAgent>
+
+
+# misc
+<AllowContentAccessProp> = AllowContentAccess=<boolean>
+<AllowFileAccessProp> = AllowFileAccess=<boolean>
+<AllowFileAccessFromFileURLsProp> = AllowFileAccessFromFileURLs=<boolean>
+<AllowUniversalAccessFromFileURLsProp> = AllowUniversalAccessFromFileURLs=<boolean>
+<BlockNetworkImageProp> = BlockNetworkImage=<boolean>
+<BlockNetworkLoadsProp> = BlockNetworkLoads=<boolean>
+<DomStorageEnabledProp> = DomStorageEnabled=<boolean>
+<EnableSmoothTransitionProp> = EnableSmoothTransition=<boolean>
+<LightTouchEnabledProp> = LightTouchEnabled=<boolean>
+<LoadWithOverviewModeProp> = LoadWithOverviewMode=<boolean>
+<LoadsImagesAutomaticallyProp> = LoadsImagesAutomatically=<boolean>
+<MediaPlaybackRequiresUserGestureProp> = MediaPlaybackRequiresUserGesture=<boolean>
+<MixedContentModeProp> = MixedContentMode=<int min=0 max=2> # MIXED_CONTENT_ALWAYS_ALLOW=0, MIXED_CONTENT_NEVER_ALLOW=1, MIXED_CONTENT_COMPATIBILITY_MODE=2
+<NeedInitialFocusProp> = NeedInitialFocus=<boolean>
+<OffscreenPreRasterProp> = OffscreenPreRaster=<boolean>
+<SafeBrowsingEnabledProp> = SafeBrowsingEnabled=<boolean>
+<SaveFormDataProp> = SaveFormData=<boolean>
+<SavePasswordProp> = SavePassword=<boolean>
+<SupportMultipleWindowsProp> = SupportMultipleWindows=<boolean>
+<UseWideViewPortProp> = UseWideViewPort=<boolean>
+
+
+# layout algorithm
+<LayoutAlgorithmProp> = LayoutAlgorithm=<LayoutAlgorithm>
+<LayoutAlgorithm> = NARROW_COLUMNS
+<LayoutAlgorithm> = NORMAL
+<LayoutAlgorithm> = SINGLE_COLUMN
+<LayoutAlgorithm> = TEXT_AUTOSIZING
+
+
+# plugin state
+<PluginStateProp> = PluginState=<PluginState>
+<PluginState> = OFF
+<PluginState> = ON
+<PluginState> = ON_DEMAND
+
+
+# render priority
+<RenderPriorityProp> = RenderPriority=<RenderPriority>
+<RenderPriority> = HIGH
+<RenderPriority> = LOW
+<RenderPriority> = NORMAL

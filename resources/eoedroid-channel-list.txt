@@ -1,0 +1,65 @@
+# MIT License
+# 
+# Copyright (c) 2018 S. Lee
+# 
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+# 
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+# 
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+
+# This is a API list that can be used as a channel from javascript to java
+# This list is investigated by EoEDroid [Yang et al., 2018]
+# APIs used as channel in Evelyn is marked via 'o', and reasons for not used 
+# ones are listed below
+
+
+Marking, API, Why not used?
+, onFormResubmission, <null>
+, onPageCommitVisible(url, <null>
+, doUpdateVisitedHistory(url, isReloaded), <null>
+, onPageStarted(url, icon), <null>
+, onPageFinished(url, <null>
+, onReceivedError(errorcode, description, url), <null>
+, onReceivedSslError(error, <null>
+, onReceivedClientCertRequest(request), <null>
+, onReceivedHttpAuthRequest (host, realm), <null>
+, onReceivedHttpError(request, response), <null>
+, onReceivedLoginRequest(realm, account, arg, <null>
+, onScaleChanged(old_scale, new_scale), <null>
+, shouldOverrideKeyEvent(keyevent), <null>
+, onUnhandledKeyEvent(keyevent), <null>
+, shouldInterceptRequest(request), <null>
+, onLoadResource(url, <null>
+, shouldOverrideUrlLoading(url [or request], <null>
+, onCreateWindow, <null>
+, onCloseWindow, <null>
+o, onConsoleMessage(message), <null>
+, onGeolocationPermissionsShowPrompt (origin), <null>
+, onGeolocationPermissionsHidePromp, <null>
+, onShowCustomVie, <null>
+, onHideCustomVie, <null>
+, onJsBeforeUnload(url, message, result), <null>
+o, onJsAlert(url, message, result), <null>
+o, onJsConfirm(url, message, result, <null>
+o, onJsPrompt(url, message, defaultValue, result), <null>
+, onPermissionRequest(request, <null>
+, onPermissionRequestCanceled(request), <null>
+, onRequestFocu, <null>
+, onShowFileChoose, <null>
+, onProgressChanged(progress) onReceivedIcon(icon), <null>
+, onReceivedTitle(title, <null>
+, onReceivedTouchIcon(url, precomposed, <null>
+, onDownloadStart(url, userAgent, contentDisposition, mimetype, contentLength, <null>
