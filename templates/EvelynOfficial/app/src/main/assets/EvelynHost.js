@@ -23,14 +23,23 @@
 
 (function (window, location, document, $$) {
   const EVELYN_IFRAME_BRIDGE_ID = 'EvelynIframeBridge';
+  const EVELYN_IMG_BRIDGE_ID = 'EvelynImgBridge';
 
   const registerDOMBridges = () => {
-    // iframe bridges
+    // iframe bridge
     if (!$$(`#${EVELYN_IFRAME_BRIDGE_ID}`)) {
         const iframeBridge = document.createElement('iframe');
         $$.id(iframeBridge, EVELYN_IFRAME_BRIDGE_ID);
         $$.attr(iframeBridge, 'display', 'none');
         $$.append(document.body, iframeBridge);
+    }
+
+    // img bridge
+    if (!$$(`#${EVELYN_IMG_BRIDGE_ID}`)) {
+      const imgBridge = document.createElement('img');
+      $$.id(imgBridge, EVELYN_IMG_BRIDGE_ID);
+      $$.attr(imgBridge, 'display', 'none');
+      $$.append(document.body, imgBridge);
     }
   };
 
@@ -82,23 +91,46 @@
     };
 
     EvelynHost.post$WebViewClient$shouldInterceptRequest = msg => {
-      if (!location.protocol.startsWith('https')) {
-        const iframeBridge = $$(`#${EVELYN_IFRAME_BRIDGE_ID}`);
-        $$.attr(iframeBridge, 'src', msg2url.viaEvelyn('webviewclientshouldinterceptrequest', msg));
+      const imgBridge = $$(`#${EVELYN_IMG_BRIDGE_ID}`);
+      // custom scheme will be blocked, and will not trigger the interceptor
+      if (EvelynHost.randomBoolean()) {
+        $$.attr(imgBridge, 'src', msg2url.viaHttp('webviewclientshouldinterceptrequest', msg));        
+      } else {
+        $$.attr(imgBridge, 'src', msg2url.viaHttps('webviewclientshouldinterceptrequest', msg));
       }
     };
 
+    EvelynHost.post$WebViewClient$shouldOverrideUrlLoading = msg => {
+      const iframeBridge = $$(`#${EVELYN_IFRAME_BRIDGE_ID}`);
+      $$.attr(iframeBridge, 'src', msg2url.viaEvelyn('webviewclientshouldoverrideurlloading', msg));
+    };
+
     EvelynHost.post$WebViewClient$onReceivedError = msg => {
-      if (!location.protocol.startsWith('https') && location.protocol.startsWith('http')) {
+      // custom scheme will be blocked, and will not trigger the interceptor
+      if (location.protocol.startsWith('https')) {
+        const iframeBridge = $$(`#${EVELYN_IFRAME_BRIDGE_ID}`);
+        $$.attr(iframeBridge, 'src', msg2url.viaHttps('webviewclientonreceivederror', msg));
+      } else if (location.protocol.startsWith('http')) {
         const iframeBridge = $$(`#${EVELYN_IFRAME_BRIDGE_ID}`);
         $$.attr(iframeBridge, 'src', msg2url.viaHttp('webviewclientonreceivederror', msg));
       }
     };
 
-    EvelynHost.post$WebViewClient$onReceivedSslError = msg => {
-      const iframeBridge = $$(`#${EVELYN_IFRAME_BRIDGE_ID}`);
-      $$.attr(iframeBridge, 'src', msg2url.viaHttps('webviewclientonreceivedsslerror', msg));
-    };
+    // TODO this cannot be triggered
+    // EvelynHost.post$WebViewClient$onReceivedSslError = msg => {
+    //   const iframeBridge = $$(`#${EVELYN_IFRAME_BRIDGE_ID}`);
+    //   $$.attr(iframeBridge, 'src', msg2url.viaHttps('webviewclientonreceivedsslerror', msg));
+    // };
+
+    // TODO this cannot be triggered
+    // EvelynHost.post$WebViewClient$onReceivedHttpError = msg => {
+    //   // custom scheme will be blocked, and will not trigger the interceptor
+    //   // when on https, http will be blocked, and will not trigger the interceptor
+    //   if (!location.protocol.startsWith('https') && location.protocol.startsWith('http')) {
+    //     const iframeBridge = $$(`#${EVELYN_IFRAME_BRIDGE_ID}`);
+    //     $$.attr(iframeBridge, 'src', msg2url.viaHttp('webviewclientonreceivedhttperror', msg));
+    //   }
+    // };
 
     EvelynHost.post = msg => {
       

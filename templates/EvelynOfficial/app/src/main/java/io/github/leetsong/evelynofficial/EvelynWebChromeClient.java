@@ -3,6 +3,7 @@ package io.github.leetsong.evelynofficial;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Message;
+import android.support.annotation.NonNull;
 import android.view.View;
 import android.webkit.ConsoleMessage;
 import android.webkit.GeolocationPermissions;
@@ -76,7 +77,7 @@ public class EvelynWebChromeClient extends WebChromeClient {
     @Override
     public boolean onJsAlert(WebView view, String url, String message, JsResult result) {
         EvelynProtocol.EvelynMessage m = EvelynProtocol.EvelynMessage.fromClientUrl(message);
-        if (m != null) {
+        if (m != null && bridgeName("onJsAlert").equalsIgnoreCase(m.getBridge())) {
             this.mBridge.dispatchMessage(m);
             return false;
         }
@@ -86,7 +87,7 @@ public class EvelynWebChromeClient extends WebChromeClient {
     @Override
     public boolean onJsConfirm(WebView view, String url, String message, JsResult result) {
         EvelynProtocol.EvelynMessage m = EvelynProtocol.EvelynMessage.fromClientUrl(message);
-        if (m != null) {
+        if (m != null && bridgeName("onJsConfirm").equalsIgnoreCase(m.getBridge())) {
             this.mBridge.dispatchMessage(m);
             return false;
         }
@@ -97,7 +98,7 @@ public class EvelynWebChromeClient extends WebChromeClient {
     @Override
     public boolean onJsPrompt(WebView view, String url, String message, String defaultValue, JsPromptResult result) {
         EvelynProtocol.EvelynMessage m = EvelynProtocol.EvelynMessage.fromClientUrl(message);
-        if (m != null) {
+        if (m != null && bridgeName("onJsPrompt").equalsIgnoreCase(m.getBridge())) {
             this.mBridge.dispatchMessage(m);
             return false;
         }
@@ -149,7 +150,7 @@ public class EvelynWebChromeClient extends WebChromeClient {
     @Override
     public void onConsoleMessage(String message, int lineNumber, String sourceID) {
         EvelynProtocol.EvelynMessage m = EvelynProtocol.EvelynMessage.fromClientUrl(message);
-        if (m != null) {
+        if (m != null && bridgeName("onConsoleMessage").equalsIgnoreCase(m.getBridge())) {
             this.mBridge.dispatchMessage(m);
             return;
         }
@@ -160,7 +161,7 @@ public class EvelynWebChromeClient extends WebChromeClient {
     public boolean onConsoleMessage(ConsoleMessage consoleMessage) {
         EvelynProtocol.EvelynMessage m = EvelynProtocol.EvelynMessage.fromClientUrl(
                 consoleMessage.message());
-        if (m != null) {
+        if (m != null && bridgeName("onConsoleMessage").equalsIgnoreCase(m.getBridge())) {
             this.mBridge.dispatchMessage(m);
             return false;
         }
@@ -185,5 +186,9 @@ public class EvelynWebChromeClient extends WebChromeClient {
     @Override
     public boolean onShowFileChooser(WebView webView, ValueCallback<Uri[]> filePathCallback, FileChooserParams fileChooserParams) {
         return super.onShowFileChooser(webView, filePathCallback, fileChooserParams);
+    }
+
+    private String bridgeName(@NonNull String m) {
+        return "WebChromeClient" + m;
     }
 }

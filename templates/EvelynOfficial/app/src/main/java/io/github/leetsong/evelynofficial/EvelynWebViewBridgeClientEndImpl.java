@@ -1,5 +1,6 @@
 package io.github.leetsong.evelynofficial;
 
+import android.support.annotation.NonNull;
 import android.webkit.JavascriptInterface;
 
 public class EvelynWebViewBridgeClientEndImpl implements EvelynWebViewBridge.ClientEnd {
@@ -19,7 +20,7 @@ public class EvelynWebViewBridgeClientEndImpl implements EvelynWebViewBridge.Cli
     @Override
     public void postMessage(String message) {
         EvelynProtocol.EvelynMessage m = EvelynProtocol.EvelynMessage.fromClientUrl(message);
-        if (m != null) {
+        if (m != null && bridgeName("addJavaScriptInterface").equalsIgnoreCase(m.getBridge())) {
             this.mBridge.dispatchMessage(m);
         }
     }
@@ -40,5 +41,9 @@ public class EvelynWebViewBridgeClientEndImpl implements EvelynWebViewBridge.Cli
     @Override
     public double randomDouble() {
         return EvelynUtility.randomDouble();
+    }
+
+    private String bridgeName(@NonNull String m) {
+        return "WebView" + m;
     }
 }

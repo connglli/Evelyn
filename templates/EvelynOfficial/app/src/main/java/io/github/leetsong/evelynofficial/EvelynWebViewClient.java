@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.graphics.Bitmap;
 import android.net.http.SslError;
 import android.os.Message;
+import android.support.annotation.NonNull;
 import android.view.KeyEvent;
 import android.webkit.ClientCertRequest;
 import android.webkit.HttpAuthHandler;
@@ -29,7 +30,8 @@ public class EvelynWebViewClient extends WebViewClient {
     public boolean shouldOverrideUrlLoading(WebView view, String url) {
         EvelynProtocol.EvelynMessage message = EvelynProtocol.EvelynMessage.fromClientUrl(url);
 
-        if (message != null) {
+        if (message != null &&
+                bridgeName("shouldOverrideUrlLoading").equalsIgnoreCase(message.getBridge())) {
             this.mBridge.dispatchMessage(message);
             return true;
         }
@@ -45,7 +47,8 @@ public class EvelynWebViewClient extends WebViewClient {
         EvelynProtocol.EvelynMessage message = EvelynProtocol.EvelynMessage.fromClientUrl(
                 request.getUrl().toString());
 
-        if (message != null) {
+        if (message != null &&
+                bridgeName("shouldOverrideUrlLoading").equalsIgnoreCase(message.getBridge())) {
             this.mBridge.dispatchMessage(message);
             return true;
         }
@@ -78,7 +81,8 @@ public class EvelynWebViewClient extends WebViewClient {
     @Override
     public WebResourceResponse shouldInterceptRequest(WebView view, String url) {
         EvelynProtocol.EvelynMessage message = EvelynProtocol.EvelynMessage.fromClientUrl(url);
-        if (message != null) {
+        if (message != null &&
+                bridgeName("shouldInterceptRequest").equalsIgnoreCase(message.getBridge())) {
             this.mBridge.dispatchMessage(message);
             return new WebResourceResponse(null, null, null);
         } else {
@@ -91,7 +95,8 @@ public class EvelynWebViewClient extends WebViewClient {
     public WebResourceResponse shouldInterceptRequest(WebView view, WebResourceRequest request) {
         EvelynProtocol.EvelynMessage message = EvelynProtocol.EvelynMessage.fromClientUrl(
                 request.getUrl().toString());
-        if (message != null) {
+        if (message != null &&
+                bridgeName("shouldInterceptRequest").equalsIgnoreCase(message.getBridge())) {
             this.mBridge.dispatchMessage(message);
             return new WebResourceResponse(null, null, null);
         } else {
@@ -107,7 +112,8 @@ public class EvelynWebViewClient extends WebViewClient {
     @Override
     public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
         EvelynProtocol.EvelynMessage message = EvelynProtocol.EvelynMessage.fromClientUrl(failingUrl);
-        if (message != null) {
+        if (message != null &&
+                bridgeName("onReceivedError").equalsIgnoreCase(message.getBridge())) {
             this.mBridge.dispatchMessage(message);
         } else {
             super.onReceivedError(view, errorCode, description, failingUrl);
@@ -119,7 +125,8 @@ public class EvelynWebViewClient extends WebViewClient {
     public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
         EvelynProtocol.EvelynMessage message = EvelynProtocol.EvelynMessage.fromClientUrl(
                 request.getUrl().toString());
-        if (message != null) {
+        if (message != null &&
+                bridgeName("onReceivedError").equalsIgnoreCase(message.getBridge())) {
             this.mBridge.dispatchMessage(message);
         } else {
             super.onReceivedError(view, request, error);
@@ -131,7 +138,8 @@ public class EvelynWebViewClient extends WebViewClient {
     public void onReceivedHttpError(WebView view, WebResourceRequest request, WebResourceResponse errorResponse) {
         EvelynProtocol.EvelynMessage message = EvelynProtocol.EvelynMessage.fromClientUrl(
                 request.getUrl().toString());
-        if (message != null) {
+        if (message != null &&
+                bridgeName("onReceivedHttpError").equalsIgnoreCase(message.getBridge())) {
             this.mBridge.dispatchMessage(message);
         } else {
             super.onReceivedHttpError(view, request, errorResponse);
@@ -152,7 +160,8 @@ public class EvelynWebViewClient extends WebViewClient {
     public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
         EvelynProtocol.EvelynMessage message = EvelynProtocol.EvelynMessage.fromClientUrl(
                 error.getUrl());
-        if (message != null) {
+        if (message != null &&
+                bridgeName("onReceivedSslError").equalsIgnoreCase(message.getBridge())) {
             this.mBridge.dispatchMessage(message);
         } else {
             super.onReceivedSslError(view, handler, error);
@@ -197,5 +206,9 @@ public class EvelynWebViewClient extends WebViewClient {
     @Override
     public void onSafeBrowsingHit(WebView view, WebResourceRequest request, int threatType, SafeBrowsingResponse callback) {
         super.onSafeBrowsingHit(view, request, threatType, callback);
+    }
+
+    private String bridgeName(@NonNull String m) {
+        return "WebViewClient" + m;
     }
 }

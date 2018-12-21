@@ -1,6 +1,7 @@
 package io.github.leetsong.evelynofficial;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -32,9 +33,9 @@ public class EvelynUtility {
         return random.nextDouble();
     }
 
-    /* javascript asset */
+    /* Javascript Asset */
 
-    public static String assetJs2String(Context c, String urlStr){
+    public static String assetJs2String(@NonNull Context c, @NonNull String urlStr){
         InputStream in = null;
 
         try{

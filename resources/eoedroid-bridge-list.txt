@@ -20,37 +20,37 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-# This is a API list that can be used as a channel from javascript to java
+# This is a API list that can be used as a bridge from javascript to java
 # This list is investigated by EoEDroid [Yang et al., 2018]
-# APIs used as channel in Evelyn is marked via 'o', and reasons for not used 
+# APIs used as bridge in Evelyn is marked via 'o', and reasons for not used 
 # ones are listed below
 
 
 Marking, API, Why not used?
 , onFormResubmission, <null>
-, onPageCommitVisible(url, <null>
+, onPageCommitVisible(url), <null>
 , doUpdateVisitedHistory(url, isReloaded), <null>
 , onPageStarted(url, icon), <null>
 , onPageFinished(url, <null>
-, onReceivedError(errorcode, description, url), <null>
-, onReceivedSslError(error, <null>
+o, onReceivedError(errorcode, description, url), <null>
+x, onReceivedSslError(error), cannot be triggered accordingly
 , onReceivedClientCertRequest(request), <null>
-, onReceivedHttpAuthRequest (host, realm), <null>
-, onReceivedHttpError(request, response), <null>
+, onReceivedHttpAuthRequest(host, realm), <null>
+x, onReceivedHttpError(request, response), cannot be triggered accordingly
 , onReceivedLoginRequest(realm, account, arg, <null>
 , onScaleChanged(old_scale, new_scale), <null>
 , shouldOverrideKeyEvent(keyevent), <null>
 , onUnhandledKeyEvent(keyevent), <null>
-, shouldInterceptRequest(request), <null>
-, onLoadResource(url, <null>
-, shouldOverrideUrlLoading(url [or request], <null>
+o, shouldInterceptRequest(request), <null>
+, onLoadResource(url), <null>
+o, shouldOverrideUrlLoading(url [or request]), <null>
 , onCreateWindow, <null>
 , onCloseWindow, <null>
 o, onConsoleMessage(message), <null>
-, onGeolocationPermissionsShowPrompt (origin), <null>
+, onGeolocationPermissionsShowPrompt(origin), <null>
 , onGeolocationPermissionsHidePromp, <null>
-, onShowCustomVie, <null>
-, onHideCustomVie, <null>
+, onShowCustomView, <null>
+, onHideCustomView, <null>
 , onJsBeforeUnload(url, message, result), <null>
 o, onJsAlert(url, message, result), <null>
 o, onJsConfirm(url, message, result, <null>
@@ -60,6 +60,6 @@ o, onJsPrompt(url, message, defaultValue, result), <null>
 , onRequestFocu, <null>
 , onShowFileChoose, <null>
 , onProgressChanged(progress) onReceivedIcon(icon), <null>
-, onReceivedTitle(title, <null>
-, onReceivedTouchIcon(url, precomposed, <null>
-, onDownloadStart(url, userAgent, contentDisposition, mimetype, contentLength, <null>
+, onReceivedTitle(title), <null>
+, onReceivedTouchIcon(url), precomposed, <null>
+, onDownloadStart(url, userAgent, contentDisposition, mimetype, contentLength), <null>
