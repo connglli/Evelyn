@@ -1,0 +1,66 @@
+#! /bin/bash
+
+SRC=src
+TARGET=generates-webapp # hard code, don't change it
+WEBSETTINGS=websettings.properties
+
+AVD_NAME=$1
+APP_SRC=webviews/EvelynOfficial
+APP_TARGET=app/build/outputs/apk/debug/app-debug.apk
+APP_ID=io.github.leetsong.evelynofficial
+APP_STORAGE=/storage/emulated/0/Android/data/${APP_ID}/files
+
+PORT=8080 # hard code, don't change it
+NAME=evelyn-server
+
+MONKEY_EVENTS=50000
+
+TIME=`date +"%s"`
+
+# start emulator and wait until boot completed
+echo "start emulator ${AVD_NAME}"
+nohup emulator -avd ${AVD_NAME} > /dev/null 2>&1 &
+adb wait-for-device
+emu_boot_completed=$(adb shell getprop sys.boot_completed | tr -d '\r')
+while [ "${emu_boot_completed}" != "1" ]; do
+    sleep 2
+    emu_boot_completed=$(adb shell getprop sys.boot_completed | tr -d '\r')
+done
+
+# build & install app and mkdir for websettings
+echo "build and install ${APP_ID}"
+cd ${APP_SRC} &&
+    ./gradlew assemble
+adb install -r ${APP_TARGET}
+cd ../..
+
+# generates and push websettings.properties
+echo "generate ${WEBSETTINGS}"
+echo "su && mkdir -p ${APP_STORAGE}" | adb shell
+python ${SRC}/grammar.py  ${SRC}/websettings.txt root ${TARGET}/${WEBSETTINGS}
+adb push ${TARGET}/${WEBSETTINGS} ${APP_STORAGE}/${WEBSETTINGS}
+
+# generates webapp to TARGET
+echo "generate webapp"
+cd ${SRC} &&
+    python evelyn.py &&
+    cd ..
+
+# start a static file server
+echo "start a static file server on ${PORT}"
+cd ${TARGET} &&
+    nohup python -m http.server ${PORT} > /dev/null 2>&1 &
+cd ..
+echo "${NAME} started at http://localhost:8080"
+
+# take and save pid
+# pid=`ps aux | grep "python -m http.server 8080" | awk '{print $2}'`
+# echo ${pid} > ${NAME}-${TIME}.pid
+
+# make port forwarding
+echo "make port forwarding"
+adb reverse tcp:${PORT} tcp:${PORT}
+
+# run monkey/sapienz/... for testing, and taking logs
+echo "run monkey for testing"
+adb shell monkey -p ${APP_ID} -v ${MONKEY_EVENTS} > ${APP_ID}-${TIME}.monkey.log

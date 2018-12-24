@@ -15,6 +15,9 @@ public class EvelynMainActivity extends AppCompatActivity {
     // path to websettings.properties
     private static final String EVELYN_WEB_SETTINGS_PROPERTIES = "websettings.properties";
 
+    // host url
+    private static final String HOST_INDEX_URL = "http://localhost:8080/index.html";
+
     WebView mWebView;
     WebSettings mWebSettings;
     EvelynWebViewBridge mBridge;
@@ -63,7 +66,8 @@ public class EvelynMainActivity extends AppCompatActivity {
         // attach to parent
         mWebViewContainer.addView(mWebView);
 
-        mWebView.loadUrl("https://www.baidu.com");
+        // navigate to host
+        mWebView.loadUrl(HOST_INDEX_URL);
     }
 
     @Override
