@@ -103,5 +103,10 @@ venv.bak/
 # mypy
 .mypy_cache/
 
+# idea
+.idea
+target
+
 # Evelyn
 websettings.properties
+generates-*
